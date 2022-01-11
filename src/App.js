@@ -1,23 +1,37 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
 } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import './App.css';
 import SearchPage from "./component/search";
 import CurrencyTab from "./component/currencyTab";
+import {getCurrencies, getSearchResult, getRatioBase} from "../src/redux/reducers/CurrencyReduces";
 
-const App = (props) => {
-  const {
-    getAllCurrencies,
-    currencies,
-    getResult,
-    searchResult,
-    ratioToBaseCurr,
-    getRatioToBase
-  } = props
+
+
+const App = () => {
+
+  const dispatch = useDispatch()
+  const currencies = useSelector((state) => state.currencies.currencies)
+  const searchResult = useSelector((state) => state.currencies.searchResult)
+  const ratioToBaseCurr = useSelector((state) => state.currencies.ratioBaseCurrency)
+
+  const getAllCurrencies = useCallback(
+    () => dispatch(getCurrencies()),
+    [dispatch]
+  )
+  const getResult = useCallback(
+    (payload) => dispatch(getSearchResult(payload)),
+    [dispatch]
+  )
+  const getRatioToBase = useCallback(
+    (payload) => dispatch(getRatioBase(payload)),
+    [dispatch]
+  )
 
   return (
     <Router>

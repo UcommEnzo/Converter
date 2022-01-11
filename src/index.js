@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import store from "./redux/store";
-import "antd/dist/antd.css";
+import 'antd/dist/antd.min.css';
 import './index.css';
-import AppContainer from './AppContainer';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppContainer />
+    <App />
   </Provider>,
   document.getElementById('root')
 );

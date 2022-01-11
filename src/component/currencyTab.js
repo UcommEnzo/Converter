@@ -44,7 +44,7 @@ const CurrencyTab=({currencies, ratioToBaseCurr, getRatioToBase}) => {
           size={"large"}
           style={{minWidth: '200px'}}
           showSearch
-          placeholder="Select a person"
+          placeholder="Select a currency"
           onChange={onChangeBaseCurr}
         >
           {currencyArray.map(curr => {
