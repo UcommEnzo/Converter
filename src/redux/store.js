@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux"
 import createSagaMiddleware from 'redux-saga'
-import currencyReducer from "./reducers/CurrencyReduces"
+import currencyReducer from "./reducers/CurrencyReduces.ts"
 import {watcherCurrencies} from "./saga";
 
 let reducers = combineReducers({

@@ -7,7 +7,7 @@ import {
     setCurrencies,
     setRatioBase,
     setSearchResult
-} from "./reducers/CurrencyReduces";
+} from "./reducers/CurrencyReduces.ts";
 
 function* updateCurrencies() {
     const payload = yield call(getCurrencies)

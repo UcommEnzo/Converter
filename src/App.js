@@ -7,10 +7,9 @@ import {
 } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import './App.css';
-import SearchPage from "./component/search";
-import CurrencyTab from "./component/currencyTab";
-import {getCurrencies, getSearchResult, getRatioBase} from "../src/redux/reducers/CurrencyReduces";
-
+import SearchPage from "./component/search.tsx";
+import CurrencyTab from "./component/currencyTab.tsx";
+import {getCurrencies, getSearchResult, getRatioBase} from "./redux/reducers/CurrencyReduces.ts";
 
 
 const App = () => {
