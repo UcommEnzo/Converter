@@ -3,24 +3,38 @@ import {useEffect, useState} from "react";
 import { Table } from 'antd';
 import { Select } from 'antd';
 import './currencyTab.css';
+import { useCustomDispatch, useCustomSelector } from "../hooks/redux";
+import { getRatioBase, getCurrencies } from "../redux/reducers/ActionCreators";
 
 
-const CurrencyTab=({currencies, ratioToBaseCurr, getRatioToBase}) => {
-  const [baseCurrency, setBaseCurrency]=useState('')
+const CurrencyTab=({  }) => {
+  
+  const dispatch = useCustomDispatch()
+  const { 
+    currencies, currenciesIsLoading, currenciesError,
+    ratioBaseCurrencyIsLoading, ratioBaseCurrency, ratioBaseCurrencyError, 
+  } = useCustomSelector(state => state.currencyReducer)
+  const [baseCurrency, setBaseCurrency] = useState('')
   const Option = Select.Option
   const convertToArray = () => {
-    const currenciesKeys = Object.keys(currencies)
-    const currenciesValues = Object.values(currencies)
-    return currenciesKeys.map((curr, idx)=> {
-      return {code: curr, name: currenciesValues[idx]}
+    const currenciesKeys = currencies && Object.keys(currencies)
+    const currenciesValues = currencies && Object.values(currencies)
+    return currenciesKeys && currenciesKeys.map((curr, idx)=> {
+      return {code: curr, name: currenciesValues && currenciesValues[idx]}
     })
   }
+  const needShowTable = baseCurrency && ratioBaseCurrency && ratioBaseCurrency.length > 0 && !ratioBaseCurrencyError
   const currencyArray = convertToArray()
-  const onChangeBaseCurr = (value) => {
+  const onChangeBaseCurr = (value: string) => {
     setBaseCurrency(value)
   }
+
+  useEffect( () => {
+    !currencies && dispatch(getCurrencies())
+  },[])
+
   useEffect(() => {
-    if (baseCurrency) getRatioToBase(baseCurrency)
+    baseCurrency && dispatch(getRatioBase(baseCurrency))
   },[baseCurrency])
 
   const columns = [
@@ -48,12 +62,20 @@ const CurrencyTab=({currencies, ratioToBaseCurr, getRatioToBase}) => {
           placeholder="Select a currency"
           onChange={onChangeBaseCurr}
         >
-          {currencyArray.map(curr => {
+          {currencyArray?.map(curr => {
             return <Option value={curr.code} key={curr.code}>{curr.name}</Option>
           })}
         </Select>
       </div>
-      {ratioToBaseCurr?.length > 0 && <Table columns={columns} dataSource={ratioToBaseCurr} size="large"/>}
+      {
+        ratioBaseCurrencyIsLoading 
+          ? <div>Loading...</div>
+          : needShowTable 
+            ? <Table columns={columns} dataSource={ratioBaseCurrency} size="large"/>
+            : ratioBaseCurrencyError
+              ? <div>ratioBaseCurrencyError</div>
+              : <></>
+      }
     </div>
   )
 }

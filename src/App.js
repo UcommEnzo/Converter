@@ -1,36 +1,15 @@
-import React, {useCallback} from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
 } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import './App.css';
 import SearchPage from "./component/search.tsx";
 import CurrencyTab from "./component/currencyTab.tsx";
-import {getCurrencies, getSearchResult, getRatioBase} from "./redux/reducers/CurrencyReduces.ts";
 
 
 const App = () => {
-
-  const dispatch = useDispatch()
-  const currencies = useSelector((state) => state.currencies.currencies)
-  const searchResult = useSelector((state) => state.currencies.searchResult)
-  const ratioToBaseCurr = useSelector((state) => state.currencies.ratioBaseCurrency)
-
-  const getAllCurrencies = useCallback(
-    () => dispatch(getCurrencies()),
-    [dispatch]
-  )
-  const getResult = useCallback(
-    (payload) => dispatch(getSearchResult(payload)),
-    [dispatch]
-  )
-  const getRatioToBase = useCallback(
-    (payload) => dispatch(getRatioBase(payload)),
-    [dispatch]
-  )
 
   return (
     <Router>
@@ -41,15 +20,11 @@ const App = () => {
         </div>
         <Routes>
           <Route exact path="/" element={
-            <SearchPage getAllCurrencies={getAllCurrencies} currencies={currencies}
-                        getResult={getResult} searchResult={searchResult}
-            />
+            <SearchPage/>
           }/>
 
           <Route path="/currencytab" element={
-            <CurrencyTab currencies={currencies} ratioToBaseCurr={ratioToBaseCurr}
-                         getRatioToBase={getRatioToBase}
-            />
+            <CurrencyTab/>
           }/>
         </Routes>
       </div>

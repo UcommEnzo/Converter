@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from "./redux/store";
+import {setupStore} from "./redux/store_toolkit";
 import 'antd/dist/antd.min.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
+
+const store = setupStore()
 
 ReactDOM.render(
   <Provider store={store}>
